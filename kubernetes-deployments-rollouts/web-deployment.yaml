@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.25
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              printf 'Response from %s\n' "$HOSTNAME" > /usr/share/nginx/html/index.html
+              exec /docker-entrypoint.sh nginx -g 'daemon off;'
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 2
+            timeoutSeconds: 1
