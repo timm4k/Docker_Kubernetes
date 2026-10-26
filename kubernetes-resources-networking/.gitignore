@@ -1,0 +1,10 @@
+.kube/
+.minikube/
+kubeconfig
+kubeconfig.*
+*.key
+*.pem
+*.crt
+.env
+.vs/
+.vscode/
